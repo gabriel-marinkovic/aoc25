@@ -1,0 +1,46 @@
+data = """
+.......S.......
+...............
+.......^.......
+...............
+......^.^......
+...............
+.....^.^.^.....
+...............
+....^.^...^....
+...............
+...^.^...^.^...
+...............
+..^...^.....^..
+...............
+.^.^.^.^.^...^.
+...............
+"""
+
+with open("in.txt", "r") as f:
+    data = f.read()
+
+data = data.strip()
+
+grid = list(map(list, data.split()))
+rows = len(grid)
+cols = len(grid[0])
+
+result = 0
+for y in range(1, rows):
+	for x in range(0, cols):
+		if grid[y - 1][x] not in ["|", "S"]:
+			continue
+		if grid[y][x] == ".":
+			grid[y][x] = "|"
+		elif grid[y][x] == "^":
+			result += 1
+			if x - 1 >= 0 and grid[y][x - 1] == ".":
+				grid[y][x - 1] = "|"
+			if x + 1 < cols and grid[y][x + 1] == ".":
+				grid[y][x + 1] = "|"
+
+for row in grid:
+	print("".join(row))
+
+print(result)
